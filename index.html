@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter</title>
+    <style>
+        :root {
+            --primary: rgba(21, 71, 100, 0.8);
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, rgb(218, 225, 230), var(--primary)) no-repeat;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            padding: 0.2rem 1rem;
+            color: rgb(255, 255, 255);
+            background-color: rgba(21, 71, 100);
+            box-shadow: 0 4px 10px 0 var(--primary);
+            position: relative;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            margin: 1rem;
+        }
+
+        textarea {
+            flex-grow: 1;
+            height: 77vh;
+            resize: none;
+            margin: 1rem;
+            border: 2px double var(--primary);
+        }
+
+        textarea:focus {
+            outline: 0;
+            box-shadow: 0 4px 10px 0 var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>JSON Formatter</h1>
+    </header>
+    <main>
+        <textarea id="jsonInput" autofocus rows="25" cols="70" oninput="onJSONInput(this.value)"
+            placeholder="Paste JSON to format"></textarea>
+        <textarea id="jsonOutput" readonly rows="25" cols="70" placeholder="Formatted JSON appears here"></textarea>
+    </main>
+    <script>
+        const showError = (error) => `${error.name}: ${error.message}`;
+        function onJSONInput(inputJson) {
+            document.getElementById('jsonOutput').value = '';
+            if (inputJson) {
+                try {
+                    const formattedJson = JSON.stringify(JSON.parse(inputJson), null, 2);
+                    document.getElementById('jsonOutput').value = formattedJson;
+                } catch (error) {
+                    document.getElementById('jsonOutput').value = showError(error);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
